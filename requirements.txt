@@ -1,0 +1,5 @@
+streamlit==1.2.0
+torch==1.4.0
+numpy==1.16.4
+pytorch_transformers==1.1.0
+bitarray==0.9.3
