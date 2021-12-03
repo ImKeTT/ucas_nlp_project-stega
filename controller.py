@@ -8,7 +8,7 @@
 """
 import web
 import web_utils
-from streamlit_app import main
+from main_func import main
 
 render = web.template.render('templates')
 
