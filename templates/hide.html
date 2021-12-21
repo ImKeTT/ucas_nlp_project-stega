@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板</title>
+    <style>
+        .button1 {
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+            padding: 16px 32px;
+            text-align: center;
+            background-color: white;
+            color: black;
+            border: 2px solid #0A8ED8;
+            border-radius: 5px;
+        }
+
+        .button1:hover {
+            background-color: #9AC8E2;
+            color: white;
+        }
+    </style>
+</head>
+<body background="/static/5.jpg" style=" background-repeat:no-repeat ;background-size:100% 100%;
+background-attachment: fixed;">
+
+<!--引入jQuery包用于使用ajax-->
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<div style="height: 100vh;display: flex;flex-direction: column;align-items: center;justify-items: center;align-content: center;justify-content: center">
+
+    <p style="text-align:center"><font color="white">请选择一个语言模型：</font></p>
+
+    <center>
+        <select class="form-control" style="width: 450px;" name="manufacturer" id="language">
+            <option selected="selected">--language model--</option>
+            <option>GPT_2</option>
+            <option>RNN</option>
+            <option>VAE</option>
+        </select>
+    </center>
+
+    <p style="text-align:center"><font color="white">请选择一个编码方法：</font></p>
+
+    <center>
+        <select class="form-control" style="width: 450px;" name="manufacturer" id="moding">
+            <option selected="selected">--coding method--</option>
+            <option>huffman</option>
+            <option>arithmetic</option>
+        </select>
+    </center>
+
+    <h1>
+        <center><font color="white">请输入你需要的隐藏信息</font></center>
+    </h1>
+
+    <div style="text-align:center;vertical-align:middle;">
+        <textarea type="text" id="hideContent" name="hideContent"
+               style="width:800px; height:300px;vertical-align:middle;"
+               placeholder="hide information"></textarea>
+        <br>
+    </div>
+
+    <!--创建button按钮，点击则激发submit()事件-->
+    <!--<p style="background: white" id="resultSubmit"></p>-->
+
+    <br/>
+
+    <center>
+        <button id="submit" class="button1" onclick="submit()">提交</button>
+    </center>
+
+    <br/>
+
+</div>
+
+<script>
+    /*在这里编写submit()事件*/
+    function submit() {
+        if( $("#language").val()==="--language model--"){
+            alert("请选择语言模型")
+            return
+        }
+        if( $("#moding").val()==="--coding method--"){
+            alert("请选择编码方式")
+            return
+        }
+        if( $("#hideContent").val()===undefined||$("#hideContent").val()===""){
+            alert("请输入隐藏信息")
+            return
+        }
+        $("#submit").text("加载中...")
+        $("#submit").attr('disabled',true)
+        $.ajax({
+            url: "submitHide", /*数据提交到submit处*/
+            type: "POST",  /*采用POST方法提交*/
+            data: {"secret_message": $("#hideContent").val(), "model_name": $("#language").val(), "mode": $("#moding").val()},  /*提交的数据（json格式），从输入框中获取*/
+            /*result为后端函数返回的json*/
+            success: function (result) {
+                alert(`${result}`)
+                $("#submit").text("提交")
+                $("#submit").attr('disabled',false)
+            },
+        });
+    }
+</script>
+
+</body>
+</html>
